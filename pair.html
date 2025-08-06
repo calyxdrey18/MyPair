@@ -16,8 +16,17 @@
       --text-color: #ccd6f6;
       --light-text: #8892b0;
       --error-color: #f87171;
-      --radius: 12px;
+      --radius: 16px;
       --transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .light-theme {
+        --dark-bg: #f0f8ff;
+        --light-bg: #ffffff;
+        --accent-color: #14b8a6;
+        --light-accent: #0d9488;
+        --text-color: #0f172a;
+        --light-text: #64748b;
     }
 
     * {
@@ -30,248 +39,172 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
-      overflow-x: hidden;
+      overflow: hidden;
       color: var(--text-color);
       padding: 20px;
+      background: var(--dark-bg);
+      transition: background var(--transition);
     }
 
     #particles-js {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
     }
 
-    /* Header with logo */
+    /* Header */
     .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: rgba(10, 25, 47, 0.85);
-      backdrop-filter: blur(10px);
-      z-index: 100;
-      border-bottom: 1px solid #2dd4bf1a;
+      position: fixed; top: 0; left: 0; right: 0; display: flex;
+      justify-content: space-between; align-items: center; padding: 1rem 2rem;
+      background: rgba(10, 25, 47, 0.5); backdrop-filter: blur(10px);
+      z-index: 100; border-bottom: 1px solid #2dd4bf1a;
+      transition: background var(--transition), border-bottom var(--transition);
     }
+    .light-theme .header { background: rgba(255, 255, 255, 0.5); border-bottom: 1px solid #14b8a61a; }
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+    .logo-container { display: flex; align-items: center; gap: 1rem; }
+    .logo-img { height: 40px; width: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #2dd4bf33; box-shadow: 0 0 15px #2dd4bf22; }
+    .logo-text { font-size: 1.5rem; font-weight: 700; color: var(--accent-color); text-shadow: 0 0 10px #2dd4bf55; transition: color var(--transition); }
+
+    .theme-toggle-btn {
+        background: var(--light-bg); border: 1px solid #2dd4bf33; color: var(--light-accent);
+        width: 40px; height: 40px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; font-size: 1.2rem; transition: var(--transition);
     }
+    .theme-toggle-btn:hover { background: var(--accent-color); color: var(--dark-bg); transform: rotate(15deg) scale(1.1); }
+    .light-theme .theme-toggle-btn:hover { color: #fff; }
 
-    .logo-img {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #2dd4bf33;
-      box-shadow: 0 0 15px #2dd4bf22;
-    }
-
-    .logo-text {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--accent-color);
-      text-shadow: 0 0 10px #2dd4bf55;
-    }
-
-    /* Main container */
+    /* Main Content */
     .main-content {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      position: relative;
-      z-index: 1;
+      width: 100%; max-width: 500px;
+      position: relative; z-index: 1;
     }
 
-    /* Pairing box */
     .box {
-      background: rgba(17, 34, 64, 0.85);
-      backdrop-filter: blur(10px);
+      background: rgba(17, 34, 64, 0.75);
+      backdrop-filter: blur(12px);
       border-radius: var(--radius);
-      padding: 2rem;
-      text-align: center;
+      padding: 2.5rem; text-align: center;
       box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
       border: 1px solid #2dd4bf1a;
       transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .light-theme .box { background: rgba(255, 255, 255, 0.75); }
+
+    /* Aurora Glow Effect */
+    .box::before {
+        content: ''; position: absolute; top: -50%; left: -50%;
+        width: 200%; height: 200%;
+        background: radial-gradient(circle, #2dd4bf33, transparent, transparent);
+        transform: rotate(0deg);
+        animation: rotateGlow 15s linear infinite;
+        z-index: -1;
+    }
+    .light-theme .box::before { background: radial-gradient(circle, #14b8a622, transparent, transparent); }
+    @keyframes rotateGlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .box h2 { font-size: 2rem; margin-bottom: 0.5rem; color: var(--light-accent); transition: color var(--transition); }
+    .box h5 { color: var(--light-text); margin-bottom: 2rem; font-weight: normal; transition: color var(--transition); }
+
+    .input-group {
+        position: relative;
+        margin-bottom: 2rem;
     }
 
-    .box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 20px #2dd4bf1a;
+    .input-field {
+      width: 100%; padding: 1rem;
+      border: none; border-bottom: 2px solid #2dd4bf33;
+      background: transparent; color: var(--text-color);
+      font-size: 1.1rem; font-family: inherit; transition: var(--transition);
     }
-
-    .box h2 {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-      color: var(--light-accent);
+    .input-field:focus { outline: none; }
+    .input-field::placeholder { color: var(--light-text); }
+    
+    .input-underline {
+        position: absolute; bottom: 0; left: 0;
+        height: 2px; width: 100%;
+        background-color: var(--accent-color);
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
     }
-
-    .box h5 {
-      color: var(--light-text);
-      margin-bottom: 1.5rem;
-      font-weight: normal;
+    .input-field:focus + .input-underline {
+        transform: scaleX(1);
     }
-
-    /* Input styling */
-    .input-container {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
+    
+    .btn {
+      width: 100%; padding: 1rem;
+      background: var(--accent-color); color: #064e3b;
+      border: none; border-radius: var(--radius);
+      font-weight: 700; font-size: 1.1rem; letter-spacing: 1px;
+      cursor: pointer; transition: var(--transition);
+      position: relative; overflow: hidden;
     }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(45, 212, 191, 0.3); }
+    .light-theme .btn:hover { box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3); }
+    .btn:active { transform: translateY(-1px); }
 
-    .input-container input {
-      flex: 1;
-      padding: 1rem;
-      border-radius: var(--radius);
-      border: 1px solid #2dd4bf33;
-      background: var(--dark-bg);
-      color: var(--text-color);
-      font-size: 1rem;
-      font-family: inherit;
-      transition: var(--transition);
-    }
-
-    .input-container input:focus {
-      outline: none;
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 2px #2dd4bf33;
-    }
-
-    .input-container button {
-      padding: 1rem 1.5rem;
-      background: var(--accent-color);
-      color: var(--dark-bg);
-      border: none;
-      border-radius: var(--radius);
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .input-container button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(45, 212, 191, 0.2);
-    }
-
-    /* Result display */
     #pair-result {
-      margin-top: 1.5rem;
-      padding: 1rem;
-      border-radius: var(--radius);
-      background: var(--dark-bg);
+      margin-top: 2rem; padding: 1rem;
+      border-radius: var(--radius); background: var(--dark-bg);
       border: 1px solid #2dd4bf33;
-      min-height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      letter-spacing: 2px;
+      min-height: 60px; display: flex; align-items: center; justify-content: center;
+      font-weight: 600; letter-spacing: 3px;
       font-family: 'Courier New', Courier, monospace;
+      transition: background var(--transition), border var(--transition);
     }
 
     #copy-code {
-      background: transparent;
-      border: 1px solid var(--accent-color);
-      padding: 0.6rem 1.2rem;
-      border-radius: 50px;
-      color: var(--light-accent);
-      cursor: pointer;
-      font-weight: 600;
-      transition: var(--transition);
-      margin-top: 1.5rem;
-      display: none;
+      background: transparent; border: 2px solid var(--accent-color);
+      padding: 0.7rem 1.5rem; border-radius: 50px;
+      color: var(--light-accent); cursor: pointer;
+      font-weight: 600; transition: var(--transition);
+      margin-top: 1.5rem; display: none;
     }
+    #copy-code:hover { background: #2dd4bf1a; box-shadow: 0 0 15px #2dd4bf22; }
 
-    #copy-code:hover {
-      background: #2dd4bf1a;
-      box-shadow: 0 0 15px #2dd4bf22;
-    }
-
-    /* Custom Loader */
-    .loader {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        display: inline-block;
-        position: relative;
-        border: 3px solid;
-        border-color: var(--accent-color) var(--accent-color) transparent transparent;
-        box-sizing: border-box;
-        animation: spin 1s linear infinite;
-    }
-    .loader::after, .loader::before {
-        content: '';
-        box-sizing: border-box;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        border: 3px solid;
-        border-color: transparent transparent var(--light-text) var(--light-text);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        animation: spin-back 0.5s linear infinite;
-        transform-origin: center center;
-    }
-    .loader::before {
-        width: 32px;
-        height: 32px;
-        border-color: var(--accent-color) var(--accent-color) transparent transparent;
-        animation: spin 1.5s linear infinite;
-    }
+    .loader { /* Loader styles unchanged */ width: 48px; height: 48px; border-radius: 50%; display: inline-block; position: relative; border: 3px solid; border-color: var(--accent-color) var(--accent-color) transparent transparent; box-sizing: border-box; animation: spin 1s linear infinite; }
+    .loader::after, .loader::before { content: ''; box-sizing: border-box; position: absolute; left: 0; right: 0; top: 0; bottom: 0; margin: auto; border: 3px solid; border-color: transparent transparent var(--light-text) var(--light-text); width: 40px; height: 40px; border-radius: 50%; animation: spin-back 0.5s linear infinite; transform-origin: center center; }
+    .loader::before { width: 32px; height: 32px; border-color: var(--accent-color) var(--accent-color) transparent transparent; animation: spin 1.5s linear infinite; }
     @keyframes spin { 100% { transform: rotate(360deg); } }
     @keyframes spin-back { 100% { transform: rotate(-360deg); } }
-
 
     @media (max-width: 768px) {
       .header { padding: 0.8rem 1rem; }
       .logo-text { font-size: 1.2rem; }
       body { padding: 80px 15px 20px; }
-      .input-container { flex-direction: column; }
-      .input-container button { width: 100%; }
     }
   </style>
 </head>
-<body>
+<body class="dark-theme">
   <header class="header">
     <div class="logo-container">
       <img src="https://i.ibb.co/C5SzvWd/calyx-logo.png" alt="Calyx Studio Logo" class="logo-img">
       <div class="logo-text">Calyx Studio</div>
     </div>
+    <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme">
+        <i class="fa-solid fa-sun"></i>
+    </button>
   </header>
 
   <main class="main-content">
     <div class="box">
       <h2>Secure Pairing Interface</h2>
       <h5>Calyx Multi-Device Protocol</h5>
-      <p>Enter your number with the country code to generate a pairing code.</p>
       
-      <div class="input-container">
-        <input type="tel" id="number" placeholder="e.g., 27681538356" required>
-        <button id="submit">Generate</button>
+      <div class="input-group">
+        <input type="tel" id="number" class="input-field" placeholder="e.g., 27681538356" required>
+        <span class="input-underline"></span>
       </div>
+      
+      <button id="submit" class="btn">Generate Code</button>
       
       <div id="pair-result"></div>
       
-      <button id="copy-code">COPY CODE</button>
+      <button id="copy-code" class="btn">COPY CODE</button>
     </div>
   </main>
   
@@ -281,39 +214,51 @@
   <script>
     // --- Particle.js Config ---
     particlesJS("particles-js", {
-      particles: { number: { value: 65, density: { enable: true, value_area: 700 } }, color: { value: "#2dd4bf" }, shape: { type: "circle" }, opacity: { value: 0.6, random: true }, size: { value: 3.5, random: true }, line_linked: { enable: true, distance: 120, color: "#2dd4bf", opacity: 0.2, width: 1 }, move: { enable: true, speed: 1.7, direction: "none", random: false, straight: false, out_mode: "out" } },
-      interactivity: { detect_on: "canvas", events: { onhover: { enable: true, mode: "repulse" }, resize: true }, modes: { repulse: { distance: 80, duration: 0.3 } } },
+      particles: { number: { value: 65, density: { enable: true, value_area: 800 } }, color: { value: "#2dd4bf" }, shape: { type: "circle" }, opacity: { value: 0.5, random: true }, size: { value: 3, random: true }, line_linked: { enable: true, distance: 150, color: "#2dd4bf", opacity: 0.2, width: 1 }, move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out" } },
+      interactivity: { detect_on: "canvas", events: { onhover: { enable: true, mode: "grab" }, resize: true }, modes: { grab: { distance: 140, line_opacity: 0.5 } } },
       retina_detect: true
     });
 
-    // DOM elements
     const pairResult = document.getElementById("pair-result");
     const submitBtn = document.getElementById("submit");
     const numberInput = document.getElementById("number");
     const copyCodeBtn = document.getElementById("copy-code");
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const themeIcon = themeToggleBtn.querySelector('i');
 
-    // Copy code function
+    // --- Theme Toggler ---
+    const currentTheme = localStorage.getItem('theme') || 'dark-theme';
+    document.body.className = currentTheme;
+    if (currentTheme === 'light-theme') {
+        themeIcon.classList.replace('fa-sun', 'fa-moon');
+    }
+    
+    themeToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        if (document.body.classList.contains('light-theme')) {
+            localStorage.setItem('theme', 'light-theme');
+            themeIcon.classList.replace('fa-sun', 'fa-moon');
+        } else {
+            localStorage.setItem('theme', 'dark-theme');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+    });
+
+    // --- Copy Code Function ---
     async function copyCode() {
       const code = pairResult.dataset.code;
       if (!code) return;
-
       try {
         await navigator.clipboard.writeText(code);
         copyCodeBtn.innerText = "COPIED!";
-        copyCodeBtn.style.background = "var(--accent-color)";
-        copyCodeBtn.style.color = "var(--dark-bg)";
-        setTimeout(() => {
-          copyCodeBtn.innerText = "COPY CODE";
-          copyCodeBtn.style.background = "transparent";
-          copyCodeBtn.style.color = "var(--light-accent)";
-        }, 2000);
+        setTimeout(() => { copyCodeBtn.innerText = "COPY CODE"; }, 2000);
       } catch (err) {
         console.error('Failed to copy: ', err);
       }
     }
     copyCodeBtn.addEventListener('click', copyCode);
 
-    // Submit handler
+    // --- Submit Handler ---
     submitBtn.addEventListener("click", async (e) => {
       e.preventDefault();
       
@@ -323,7 +268,6 @@
       }
       
       const cleanNumber = numberInput.value.replace(/[^0-9]/g, "");
-      
       if (cleanNumber.length < 10) {
         pairResult.innerHTML = `<p style="color:var(--error-color)">The number provided is too short.</p>`;
         return;
@@ -334,27 +278,22 @@
       submitBtn.disabled = true;
       
       try {
-        // NOTE: This uses the original API endpoint. You may need to update this URL.
         const { data } = await axios(`/code?number=${cleanNumber}`);
         const code = data.code || null;
-
         if (!code) throw new Error("API did not return a valid code.");
 
-        // Store the raw code in a data attribute for easy copying
         pairResult.dataset.code = code;
-
-        // Display the formatted code
         const formattedCode = code.match(/.{1,4}/g).join('-');
         pairResult.innerHTML = `<p style="color:var(--light-accent)">${formattedCode}</p>`;
         
-        copyCodeBtn.style.display = "inline-block";
+        copyCodeBtn.style.display = "block";
       } catch (error) {
         console.error('API Error:', error);
-        pairResult.innerHTML = '<p style="color:var(--error-color)">Service Unavailable. Please try again later.</p>';
+        pairResult.innerHTML = '<p style="color:var(--error-color)">Service Unavailable. Try again later.</p>';
       } finally {
         submitBtn.disabled = false;
       }
     });
   </script>
 </body>
-      </html>
+  </html>
