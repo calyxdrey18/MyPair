@@ -76,13 +76,14 @@ router.get('/', async (req, res) => {
 
                     // Send welcome message
                     await KnightBot.sendMessage(userJid, { 
-                        text: `contant creator\n\n wa.me/263771629199` 
+                        text: `Congratulations🎊🥳 , You have successfully connected to Calyx-MD.` 
                     });
 
                     // Send warning message
                     await KnightBot.sendMessage(userJid, { 
-                        text: `☠️DONT SHARE WITH ANYONE☠️
-                        ©Snowbird keep it safe 💥
+                        text: `☠️YOU HAVE RECEIVED A CREDS.JSON FILE.☠️
+                        DON'T SHARE THE FILE☠️
+                        ©Powered By Calyx-Drey 💥
                          ⳹\n\n` 
                     });
 

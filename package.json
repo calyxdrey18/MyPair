@@ -1,7 +1,7 @@
 {
-  "name": "LADYBUG",
+  "name": "CALYX-MD",
   "version": "1.0.0",
-  "description": "LADYBUG WhatsApp Pair Code Generator",
+  "description": "CALYX-MD WhatsApp Pair Code Generator",
   "main": "index.js",
   "type": "module",
   "engines": {
